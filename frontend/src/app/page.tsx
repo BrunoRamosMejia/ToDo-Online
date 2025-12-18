@@ -49,7 +49,7 @@ export default function Home() {
             {/* Animación de fondo */}
             <span className="absolute inset-0 w-auto h-auto bg-[#4B3A23] transform scale-x-0 origin-left rounded-tr-full rounded-br-full group-hover:scale-x-100 transition-transform duration-700 ease-in-out z-10"></span>
             <span className="absolute inset-0 w-auto h-auto bg-[#4B3A23] transform scale-x-0 origin-right rounded-tl-full group-hover:scale-x-100 transition-transform duration-700 ease-in-out z-10"></span>
-            {/* Icono */}
+            {/* Boton */}
             <span className="relative z-20 flex items-center justify-center gap-2">
               Iniciar sesión
             </span>
@@ -66,7 +66,7 @@ export default function Home() {
             {/* Animación de fondo */}
             <span className="absolute inset-0 w-auto h-auto bg-[#4B3A23] transform scale-x-0 origin-right rounded-tl-full group-hover:scale-x-100 transition-transform duration-700 ease-in-out z-10"></span>
             <span className="absolute inset-0 w-auto h-auto bg-[#4B3A23] transform scale-x-0 origin-left rounded-tr-full rounded-br-full group-hover:scale-x-100 transition-transform duration-700 ease-in-out z-10"></span>
-            {/* Icono */}
+            {/* Boton */}
             <span className="relative z-20 flex items-center justify-center gap-2">
               Registrarse
             </span>
