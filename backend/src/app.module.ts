@@ -8,6 +8,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,7 +20,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get('typeorm')!,
     }),
-    
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_CLAVE_SUPER_SECRETA,
+      signOptions: {
+        expiresIn: "1h",
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
