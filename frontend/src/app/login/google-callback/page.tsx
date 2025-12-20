@@ -1,16 +1,15 @@
 "use client";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-export default function GoogleCallbackPage() {
+function GoogleCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const token = searchParams.get("token");
     if (token) {
-      // Opcional: obtener datos del usuario usando el token
       axios
         .get("http://localhost:3001/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
@@ -31,4 +30,12 @@ export default function GoogleCallbackPage() {
   }, [router, searchParams]);
 
   return <div>Iniciando sesión con Google...</div>;
+}
+
+export default function GoogleCallbackPage() {
+    return (
+        <Suspense fallback={<div>Cargando...</div>}>
+            <GoogleCallbackInner />
+        </Suspense>
+    )
 }
