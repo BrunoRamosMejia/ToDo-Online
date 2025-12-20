@@ -3,16 +3,29 @@
 import React, { useState } from "react";
 import { comfortaa } from "../(shared)/fonts";
 import { validateRegister } from "../helpers/validateRegiser";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { error } from "console";
+
+const POST_USER_REGISTER_URL = "http://localhost:3001/auth/register"
 
 export default function CreateUserPage() {
-  const [form, setForm] = useState({
+
+  const router = useRouter()
+
+  // ESTADO INICIAL
+  const initialState = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
     terms: false,
-  });
+  }
 
+  // FORMULARIO (USER REGISTER)
+  const [form, setForm] = useState(initialState);
+
+  // ERRORES
   const [errors, setErrors] = useState({
     name: "Nombre es requerido",
     email: "Email es requerido",
@@ -20,6 +33,7 @@ export default function CreateUserPage() {
     confirmPassword: "Confirmar contraseña es requerido",
   })
 
+  // MUESTRA LOS ERRORES DESPUES DE HABER SIDO MODIFICADOS POR PRIMERA VEZ
   const [touched, setTouched] = useState({
     name: false,
     email: false,
@@ -27,6 +41,7 @@ export default function CreateUserPage() {
     confirmPassword: false,
   });
 
+  // HANDLERS
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     const updatedForm = {
@@ -55,8 +70,19 @@ export default function CreateUserPage() {
       confirmPassword: true,
     });
     setErrors(validateRegister(form));
-    // Aquí iría la lógica de registro
-    alert("Registro enviado");
+    
+    axios
+      .post(POST_USER_REGISTER_URL, form)
+      .then(({ data }) => {
+        localStorage.setItem("actualUser", JSON.stringify(data));
+        alert("Usuario Creado Exitosamente");
+        setForm(initialState);
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        const message = error.response?.data?.message || "Error al crear el usuario";
+        alert(message);
+});
   };
 
   return (

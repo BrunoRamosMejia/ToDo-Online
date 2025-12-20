@@ -13,7 +13,13 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
+  }
+
+  // Buscar usuario por email (ejemplo: /users/email/test@mail.com)
+  @Get('email/:email')
+  async findByEmail(@Param('email') email: string) {
+    return await this.usersService.findByEmail(email);
   }
 
   @Patch(':id')

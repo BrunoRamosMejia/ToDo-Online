@@ -29,7 +29,20 @@ export class AuthService {
             password: hashedPassword,
         })
 
-        return this.usersRepository.save(newUser);
+        const savedUser = await this.usersRepository.save(newUser)
+
+        const payload = {
+            id: savedUser.id,
+            email: savedUser.email,
+        }
+
+        const token = this.jwtService.sign(payload);
+
+        return {
+            register: true,
+            access_token: token,
+            id: savedUser.id,
+        };
     }
 
     // INICIAR SESION USUARIO
@@ -50,6 +63,37 @@ export class AuthService {
 
         const token = this.jwtService.sign(payload);
 
-        return { login: true, access_token: token};
+        return {
+            login: true,
+            access_token: token,
+            id: foundUser.id,
+        };
     }
+
+    // CREAR USUARIO CON GOOGLE
+    async createWithGoogle({ name, email, profileImg }: { name: string, email: string, profileImg?: string}) {
+        const user = this.usersRepository.create({
+            name,
+            email,
+            password: '',
+            profileImg: profileImg || undefined,
+        });
+        return await this.usersRepository.save(user)
+    }
+
+    // NUEVO MÉTODO PARA GOOGLE
+    async loginWithGoogle(user: User) {
+        const payload = {
+            id: user.id,
+            email: user.email,
+        };
+
+        const token = this.jwtService.sign(payload);
+        
+        return {
+            login: true,
+            access_token: token,
+            id: user.id,
+        };
+}
 }

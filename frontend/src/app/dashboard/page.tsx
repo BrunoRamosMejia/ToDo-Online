@@ -2,8 +2,25 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuthGuard } from "../helpers/useAuthGuard";
 
 export default function DashboardPage() {
+    // Guard de User Logueado
+    useAuthGuard();
+
+    // ROUTER
+    const router = useRouter();
+
+    // HANDLERS
+    const handleLogout = () => {
+        const confirm = window.confirm("Esta seguro de que desea cerrar sesion? x_x")
+        if (confirm) {
+            localStorage.removeItem("actualUser");
+            router.push("/");
+        }
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -52,7 +69,7 @@ export default function DashboardPage() {
                 >
                     {/* Boton de Perfil */}
                     <motion.a
-                        href="/profile"
+                        href="/dashboard/profile"
                         className="flex group relative px-3 py-3 w-15 h-11 rounded-lg text-center font-semibold overflow-hidden transition"
                         style={{
                         backgroundColor: "#A47551",
@@ -79,6 +96,7 @@ export default function DashboardPage() {
                         color: "#F5E9DA",
                         border: "1px solid #7C5E3C",
                         }}
+                        onClick={handleLogout}
                         whileHover={{ scale: 1.07 }}
                         whileTap={{ scale: 0.97 }}
                     >
