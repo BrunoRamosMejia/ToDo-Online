@@ -5,7 +5,7 @@ import { useState } from "react";
 import { comfortaa } from "../(shared)/fonts";
 import { useRouter } from "next/navigation";
 
-const POST_USER_LOGIN_URL = "http://localhost:3001/auth/login/"
+const POST_USER_LOGIN_URL = process.env.NEXT_PUBLIC_POST_USER_LOGIN_URL as string;
 
 export default function LoginUserPage() {
 

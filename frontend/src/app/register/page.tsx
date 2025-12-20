@@ -5,9 +5,8 @@ import { comfortaa } from "../(shared)/fonts";
 import { validateRegister } from "../helpers/validateRegiser";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { error } from "console";
 
-const POST_USER_REGISTER_URL = "http://localhost:3001/auth/register"
+const POST_USER_REGISTER_URL = process.env.NEXT_PUBLIC_POST_USER_REGISTER_URL as string;
 
 export default function CreateUserPage() {
 
