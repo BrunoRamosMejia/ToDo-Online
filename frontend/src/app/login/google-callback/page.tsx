@@ -3,6 +3,8 @@ import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
+const DEPLOY_BACK_URL = process.env.NEXT_PUBLIC_DEPLOY_BACK_URL as string;
+
 function GoogleCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -11,13 +13,13 @@ function GoogleCallbackInner() {
     const token = searchParams.get("token");
     if (token) {
       axios
-        .get("http://localhost:3001/auth/me", {
+        .get(`${DEPLOY_BACK_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(({ data }) => {
           localStorage.setItem(
             "actualUser",
-            JSON.stringify({ ...data, access_token: token, login: true })
+            JSON.stringify({ login: true, access_token: token, id: data.id })
           );
           router.replace("/dashboard");
         })

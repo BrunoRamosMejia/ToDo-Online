@@ -6,7 +6,7 @@ import { validateRegister } from "../helpers/validateRegiser";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-const POST_USER_REGISTER_URL = process.env.NEXT_PUBLIC_POST_USER_REGISTER_URL as string;
+const DEPLOY_BACK_URL = process.env.NEXT_PUBLIC_DEPLOY_BACK_URL as string;
 
 export default function CreateUserPage() {
 
@@ -71,7 +71,7 @@ export default function CreateUserPage() {
     setErrors(validateRegister(form));
     
     axios
-      .post(POST_USER_REGISTER_URL, form)
+      .post(`${DEPLOY_BACK_URL}/auth/register`, form)
       .then(({ data }) => {
         localStorage.setItem("actualUser", JSON.stringify(data));
         alert("Usuario Creado Exitosamente");

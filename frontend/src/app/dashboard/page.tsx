@@ -4,10 +4,37 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuthGuard } from "../helpers/useAuthGuard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const DEPLOY_BACK_URL = process.env.NEXT_PUBLIC_DEPLOY_BACK_URL as string
 
 export default function DashboardPage() {
     // Guard de User Logueado
     useAuthGuard();
+
+    // DATOS DEL USUARIO
+    interface User {
+        id: string;
+        name: string;
+        email: string;
+        profileImg: string;
+    }
+
+    const [datosUser, setDatosUser] = useState<User | null>(null)
+
+    useEffect(() => {
+        const userString = localStorage.getItem("actualUser");
+        if (userString) {
+            const user = JSON.parse(userString);
+            axios
+                .get(`${DEPLOY_BACK_URL}/users/${user.id}`)
+                .then(res => setDatosUser(res.data))
+                .catch(err => console.error(err));
+        }
+    }, []);
+
+    console.log(datosUser)
 
     // ROUTER
     const router = useRouter();
@@ -41,7 +68,7 @@ export default function DashboardPage() {
                     transition={{ delay: 0.2, duration: 0.7, type: "spring" }}
                 >
                     <Image
-                        src= "/todoOnline.png"
+                        src= {datosUser ? datosUser.profileImg : "/todoOnline.png"}
                         alt="To-do cozy"
                         width={80}
                         height={80}
@@ -56,7 +83,7 @@ export default function DashboardPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.7 }}
                 >
-                    <h1 className="text-black text-lg">Bienvenido, Usuario! ♥</h1>
+                    <h1 className="text-black text-lg">Bienvenido, {datosUser ? datosUser.name : "Usuario"}! ♥</h1>
                     <h3 className="text-black text-xs">Tareas por Realizar: 3 | Tareas Hechas: 5</h3>
                 </motion.div>
                 

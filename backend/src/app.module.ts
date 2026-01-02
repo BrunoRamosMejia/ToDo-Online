@@ -16,6 +16,10 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     TasksModule,
     ConfigModule.forRoot({ isGlobal:true, load:[typeorm] }),
+    ConfigModule.forRoot({
+      envFilePath: '.develpoment.env',
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get('typeorm')!,

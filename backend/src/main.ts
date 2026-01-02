@@ -18,7 +18,7 @@ async function bootstrap() {
 
   // CONFIGURACION DE CORS
   app.enableCors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONT_URL,
     credentials: true,
   })
 

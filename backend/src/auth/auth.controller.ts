@@ -4,12 +4,14 @@ import { CreateUserDto, LoginUserDto } from 'src/users/dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from 'src/users/users.service';
 import { JwtAuthGuard } from './guards/auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
   ) {}
 
   // REGISTER USER ENDPOINT
@@ -38,7 +40,9 @@ export class AuthController {
     // Generar JWT
     const token = await this.authService.loginWithGoogle(user);
 
-    return res.redirect(`http://localhost:3000/login/google-callback?token=${token.access_token}`)
+    const FRONT_URL = this.configService.get<string>('FRONT_URL')
+    console.log("url front", FRONT_URL)
+    return res.redirect(`${FRONT_URL}/login/google-callback?token=${token.access_token}`)
   }
   
   @Get('me')

@@ -1,0 +1,7 @@
+Iniciar Proyecto Next (Front):
+    npx create-next-app@latest
+
+Iniciar Proyecto Nest (Back):
+    nest new project-name
+
+    (tener instalado @nestjs/cli previamente)

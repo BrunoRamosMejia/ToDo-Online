@@ -5,7 +5,7 @@ import { useState } from "react";
 import { comfortaa } from "../(shared)/fonts";
 import { useRouter } from "next/navigation";
 
-const POST_USER_LOGIN_URL = process.env.NEXT_PUBLIC_POST_USER_LOGIN_URL as string;
+const DEPLOY_BACK_URL = process.env.NEXT_PUBLIC_DEPLOY_BACK_URL as string;
 
 export default function LoginUserPage() {
 
@@ -33,7 +33,7 @@ export default function LoginUserPage() {
     event.preventDefault();
     
     axios
-      .post(POST_USER_LOGIN_URL, form)
+      .post(`${DEPLOY_BACK_URL}/auth/login`, form)
       .then(({ data }) => {
         console.log(data)
         localStorage.setItem("actualUser", JSON.stringify(data));
@@ -92,7 +92,7 @@ export default function LoginUserPage() {
         </button>
         <button
           type="button"
-          onClick={() => window.location.href = "http://localhost:3001/auth/google"}
+          onClick={() => window.location.href = `${DEPLOY_BACK_URL}/auth/google`}
           className="py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition border"
           style={{
             backgroundColor: "#fff",
