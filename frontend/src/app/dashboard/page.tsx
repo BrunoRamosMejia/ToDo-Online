@@ -83,7 +83,10 @@ export default function DashboardPage() {
         axios
             .get(`${DEPLOY_BACK_URL}/tasks/${userId}`)
             .then(res => setTasks(res.data))
-            .catch(err => console.error(err));
+            .catch(err => {
+                setTasks([]);
+                console.error(err)
+            });
     }
 
     // Cambiar status de tarea
@@ -285,10 +288,10 @@ export default function DashboardPage() {
             >
                 <h2 className="text-[#4B3A23] font-bold text-lg mb-4">Tus tareas</h2>
                 <div className="flex flex-col gap-4">
-                    {tasks.length === 0 ? (
+                    {Array.isArray(tasks) && tasks.length === 0 ? (
                         <p className="text-[#A47551] text-center">No tienes tareas aún.</p>
                     ) : (
-                        tasks.map((task) => (
+                        Array.isArray(tasks) && tasks.map((task) => (
                             <TaskCard
                                 key={task.id}
                                 task={task}
