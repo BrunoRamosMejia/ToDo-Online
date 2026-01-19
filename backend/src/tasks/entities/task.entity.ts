@@ -22,7 +22,13 @@ export class Task {
         type: "boolean",
         nullable: false,
     })
-    state: boolean;
+    status: boolean;
+
+    @Column({
+        type: "timestamp",
+        nullable: false,
+    })
+    date: Date;
 
     @ManyToOne(() => User, (user) => user.tasks, { nullable: false })
     user: User;
